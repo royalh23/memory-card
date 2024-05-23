@@ -8,3 +8,5 @@ Skills practiced;
 - Using useEffect for fetching data and displaying it;
 - Shuffling the cards array and displaying them correctly after each shuffle;
 - Proper use of keys in card components.
+
+[Live link](https://memory-carddd.netlify.app/)
