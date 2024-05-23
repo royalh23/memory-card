@@ -3,7 +3,12 @@ import '../styles/MainContent.css';
 import { useEffect, useState } from 'react';
 import getShuffledArray from '../utils/getShuffledArray';
 
-export default function MainContent({ setScore, setBestScore }) {
+export default function MainContent({
+  score,
+  bestScore,
+  setScore,
+  setBestScore,
+}) {
   const [cards, setCards] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -20,7 +25,7 @@ export default function MainContent({ setScore, setBestScore }) {
         return {
           name: pokemon.name,
           src: pokemon.sprites.front_default,
-          id: pokemon.id,
+          id: crypto.randomUUID(),
         };
       });
       const requiredData = await Promise.all(promises);
@@ -32,13 +37,37 @@ export default function MainContent({ setScore, setBestScore }) {
     fetchData();
   }, []);
 
+  const handleCardClick = (isClicked, setIsClicked) => {
+    if (isClicked) {
+      if (score >= bestScore) setBestScore(score);
+      setScore(0);
+      setCards(
+        getShuffledArray(
+          cards.map((card) => {
+            card.id = crypto.randomUUID();
+            return card;
+          }),
+        ),
+      );
+    } else {
+      setCards(getShuffledArray(cards));
+      setScore(score + 1);
+      setIsClicked(true);
+    }
+  };
+
   return (
     <main>
       {loading ? (
         <p>Loading...</p>
       ) : (
         cards.map((card) => (
-          <Card key={card.id} name={card.name} src={card.src} />
+          <Card
+            key={card.id}
+            name={card.name}
+            src={card.src}
+            onClick={handleCardClick}
+          />
         ))
       )}
     </main>

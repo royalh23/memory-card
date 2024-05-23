@@ -10,7 +10,12 @@ function App() {
   return (
     <>
       <Header score={score} bestScore={bestScore} />
-      <MainContent setScore={setScore} setBestScore={setBestScore} />
+      <MainContent
+        score={score}
+        bestScore={bestScore}
+        setScore={setScore}
+        setBestScore={setBestScore}
+      />
     </>
   );
 }
